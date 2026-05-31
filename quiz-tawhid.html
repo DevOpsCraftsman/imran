@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>عمرan - علوم التوحيد</title>
+  <title>عمران - علوم التوحيد</title>
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0f0c29" />
   <style>
@@ -57,8 +57,19 @@
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
     }
 
+    .disclaimer {
+      font-size: 0.9rem;
+      color: #f9d423;
+      background: rgba(249, 212, 35, 0.1);
+      padding: 1rem;
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+      border: 1px solid rgba(249, 212, 35, 0.3);
+    }
+
     h1 {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       font-size: 1.8rem;
       background: linear-gradient(90deg, #f9d423, #ff4e50);
       -webkit-background-clip: text;
@@ -86,6 +97,7 @@
       margin-bottom: 1.5rem;
       color: #12c2e9;
       line-height: 1.4;
+      direction: ltr; /* French question */
     }
 
     .options {
@@ -96,7 +108,7 @@
 
     .option {
       padding: 1rem;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       background: rgba(255, 255, 255, 0.1);
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 1rem;
@@ -167,12 +179,6 @@
     .btn-back:hover {
       color: white;
     }
-
-    /* Support for RTL and LTR mix */
-    .ltr {
-      direction: ltr;
-      display: inline-block;
-    }
   </style>
 </head>
 <body>
@@ -181,78 +187,34 @@
 
   <div class="container">
     <a href="index.html" class="btn-back" title="العودة للرئيسية">✕</a>
-    <div id="quiz-area">
-      <div class="progress">السؤال <span id="current-idx">1</span> من 10</div>
-      <div id="question-container">
-        <!-- Questions injected here -->
-      </div>
+    
+    <div id="start-screen">
+      <div class="disclaimer" id="quiz-disclaimer"></div>
+      <h1>علوم التوحيد</h1>
+      <button onclick="startQuiz()" class="btn-home" style="border:none; cursor:pointer;">ابدأ الاختبار</button>
+    </div>
+
+    <div id="quiz-area" style="display:none;">
+      <div class="progress">السؤال <span id="current-idx">1</span> من <span id="total-qs">0</span></div>
+      <div id="question-container"></div>
     </div>
 
     <div id="result-area" class="result-card">
       <h2>النتيجة النهائية</h2>
-      <div class="score" id="final-score">0 / 10</div>
+      <div class="score" id="final-score">0 / 0</div>
       <p id="feedback-msg"></p>
       <a href="index.html" class="btn-home">العودة للرئيسية</a>
     </div>
   </div>
 
+  <script src="tawhid-data.js"></script>
   <script>
-    const questions = [
-      { 
-        q: "Quelle est la définition religieuse du Tawhid ?", 
-        ar: "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات", 
-        options: ["إفراد الله بالخلق فقط", "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات", "الإيمان بوجود الله فقط"] 
-      },
-      { 
-        q: "Quelles sont les trois catégories du Tawhid ?", 
-        ar: "الربوبية، والألوهية، والأسماء والصفات", 
-        options: ["الإيمان، الإسلام، الإحسان", "الربوبية، والألوهية، والأسماء والصفات", "الصلاة، الزكاة، الحج"] 
-      },
-      { 
-        q: "Pour quelle catégorie du Tawhid les Messagers ont-ils été envoyés ?", 
-        ar: "توحيد الألوهية", 
-        options: ["توحيد الربوبية", "توحيد الألوهية", "توحيد الأسماء والصفات"] 
-      },
-      { 
-        q: "Quels sont les deux piliers de 'La ilaha illa Allah' ?", 
-        ar: "النفي والإثبات", 
-        options: ["النفي والإثبات", "القول والعمل", "الخوف والرجاء"] 
-      },
-      { 
-        q: "Que signifie le pilier de la négation 'La ilaha' ?", 
-        ar: "نفي الاستحقاق للعبادة عن كل ما سوى الله", 
-        options: ["نفي وجود الخالق", "نفي الاستحقاق للعبادة عن كل ما سوى الله", "نفي الأسماء والصفات"] 
-      },
-      { 
-        q: "Quelle est la 'clé du Paradis' et ses conditions (les dents) ?", 
-        ar: "شهادة أن لا إله إلا الله", 
-        options: ["شهادة أن لا إله إلا الله", "الصلاة في وقتها", "حسن الخلق"] 
-      },
-      { 
-        q: "L'argument des polythéistes 'nous ne les adorons que pour qu'ils nous rapprochent d'Allah' est :", 
-        ar: "شرك الشفاعة", 
-        options: ["توحيد صحيح", "شرك الشفاعة", "معصية صغيرة"] 
-      },
-      { 
-        q: "Quelle est la conséquence du Grand Shirk (شرك أكبر) ?", 
-        ar: "يخرج من الملة ويحبط جميع الأعمال", 
-        options: ["ينقص الإيمان فقط", "يخرج من الملة ويحبط جميع الأعمال", "لا يضر صاحبه شيئاً"] 
-      },
-      { 
-        q: "Pourquoi le Tawhid est-il la priorité absolue ?", 
-        ar: "لأنه حق الله على العبيد ولأجله خلقوا", 
-        options: ["لأنه حق الله على العبيد ولأجله خلقوا", "لأنه اختيار شخصي", "لأنه مجرد نظرية"] 
-      },
-      { 
-        q: "Concernant les Noms et Attributs d'Allah, nous devons :", 
-        ar: "الإثبات من غير تشبيه ولا تعطيل", 
-        options: ["تأويل المعنى بالعقل", "الإثبات من غير تشبيه ولا تعطيل", "تشبيه الله بخلقه"] 
-      }
-    ];
-
     let currentQuestionIdx = 0;
     let score = 0;
     let canAnswer = true;
+
+    document.getElementById('quiz-disclaimer').textContent = tawhidQuiz.metadata.disclaimer;
+    document.getElementById('total-qs').textContent = tawhidQuiz.questions.length;
 
     function initStars() {
       const container = document.getElementById('stars');
@@ -267,8 +229,14 @@
       }
     }
 
+    function startQuiz() {
+      document.getElementById('start-screen').style.display = 'none';
+      document.getElementById('quiz-area').style.display = 'block';
+      showQuestion();
+    }
+
     function showQuestion() {
-      const q = questions[currentQuestionIdx];
+      const q = tawhidQuiz.questions[currentQuestionIdx];
       const container = document.getElementById('question-container');
       document.getElementById('current-idx').textContent = currentQuestionIdx + 1;
       
@@ -291,7 +259,8 @@
       if (!canAnswer) return;
       canAnswer = false;
 
-      const correct = questions[currentQuestionIdx].ar;
+      const q = tawhidQuiz.questions[currentQuestionIdx];
+      const correct = q.correct;
       const options = document.querySelectorAll('.option');
 
       options.forEach(opt => {
@@ -303,7 +272,7 @@
 
       setTimeout(() => {
         currentQuestionIdx++;
-        if (currentQuestionIdx < questions.length) {
+        if (currentQuestionIdx < tawhidQuiz.questions.length) {
           showQuestion();
         } else {
           showResults();
@@ -314,10 +283,10 @@
     function showResults() {
       document.getElementById('quiz-area').style.display = 'none';
       document.getElementById('result-area').style.display = 'block';
-      document.getElementById('final-score').textContent = `${score} / 10`;
+      document.getElementById('final-score').textContent = `${score} / ${tawhidQuiz.questions.length}`;
       
       let msg = "";
-      if (score === 10) msg = "ما شاء الله! ممتاز. ثبتك الله على التوحيد 🌟";
+      if (score === tawhidQuiz.questions.length) msg = "ما شاء الله! ممتاز. ثبتك الله على التوحيد 🌟";
       else if (score >= 7) msg = "جيد جداً! واصل تعلم العقيدة الصحيحة 👍";
       else if (score >= 5) msg = "بداية طيبة، ينصح بمراجعة دروس الشيخ عبد الرزاق البدر 💪";
       else msg = "عليك بمراجعة كتاب التوحيد والأصول الثلاثة ❤️";
@@ -326,7 +295,6 @@
     }
 
     initStars();
-    showQuestion();
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

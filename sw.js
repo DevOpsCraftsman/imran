@@ -4,6 +4,7 @@ const ASSETS = [
   '/index.html',
   '/quiz.html',
   '/quiz-tawhid.html',
+  '/tawhid-data.js',
   '/manifest.json',
   '/icon.svg'
 ];
