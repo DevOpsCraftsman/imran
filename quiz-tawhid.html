@@ -117,9 +117,13 @@
       line-height: 1.4;
     }
 
-    .option:hover {
+    .option:hover:not(.disabled) {
       background: rgba(255, 255, 255, 0.2);
       border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .option.disabled {
+      cursor: default;
     }
 
     .option.correct {
@@ -151,7 +155,7 @@
 
     .btn-action {
       display: inline-block;
-      margin-top: 2rem;
+      margin-top: 1rem;
       padding: 1rem 2.5rem;
       background: linear-gradient(90deg, #12c2e9, #c471ed);
       color: white;
@@ -166,6 +170,11 @@
 
     .btn-action:hover {
       transform: scale(1.05);
+    }
+
+    .btn-next {
+      display: none;
+      margin-top: 1rem;
     }
 
     .btn-back {
@@ -206,6 +215,7 @@
     <div id="quiz-area" style="display:none;">
       <div class="progress">السؤال <span id="current-idx">1</span> من <span id="total-qs">0</span></div>
       <div id="question-container"></div>
+      <button id="next-btn" onclick="nextQuestion()" class="btn-action btn-next">التالي</button>
     </div>
 
     <div id="result-area" class="result-card">
@@ -249,7 +259,10 @@
     function showQuestion() {
       const q = tawhidQuiz.questions[currentQuestionIdx];
       const container = document.getElementById('question-container');
+      const nextBtn = document.getElementById('next-btn');
+      
       document.getElementById('current-idx').textContent = currentQuestionIdx + 1;
+      nextBtn.style.display = 'none';
       
       let optionsHtml = q.options.map(opt => `
         <div class="option" onclick="checkAnswer(this, '${opt}')">${opt}</div>
@@ -273,22 +286,26 @@
       const q = tawhidQuiz.questions[currentQuestionIdx];
       const correct = q.correct;
       const options = document.querySelectorAll('.option');
+      const nextBtn = document.getElementById('next-btn');
 
       options.forEach(opt => {
+        opt.classList.add('disabled');
         if (opt.textContent === correct) opt.classList.add('correct');
         if (opt === element && selected !== correct) opt.classList.add('wrong');
       });
 
       if (selected === correct) score++;
+      
+      nextBtn.style.display = 'inline-block';
+    }
 
-      setTimeout(() => {
-        currentQuestionIdx++;
-        if (currentQuestionIdx < tawhidQuiz.questions.length) {
-          showQuestion();
-        } else {
-          showResults();
-        }
-      }, 2000);
+    function nextQuestion() {
+      currentQuestionIdx++;
+      if (currentQuestionIdx < tawhidQuiz.questions.length) {
+        showQuestion();
+      } else {
+        showResults();
+      }
     }
 
     function showResults() {
