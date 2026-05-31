@@ -1,0 +1,6 @@
+services:
+  - type: static
+    name: imran-site
+    env: static
+    buildCommand: ""
+    publishDir: "."
