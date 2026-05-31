@@ -150,6 +150,21 @@
     .btn-home:hover {
       transform: scale(1.05);
     }
+
+    .btn-back {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+      z-index: 2;
+    }
+
+    .btn-back:hover {
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -157,6 +172,7 @@
   <div class="stars" id="stars"></div>
 
   <div class="container">
+    <a href="index.html" class="btn-back" title="العودة للرئيسية">✕</a>
     <div id="quiz-area">
       <div class="progress">السؤال <span id="current-idx">1</span> من 10</div>
       <div id="question-container">
