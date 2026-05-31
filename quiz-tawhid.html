@@ -58,19 +58,20 @@
     }
 
     .disclaimer {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: #f9d423;
       background: rgba(249, 212, 35, 0.1);
-      padding: 1rem;
+      padding: 1.5rem;
       border-radius: 1rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.4;
+      margin-bottom: 2rem;
+      line-height: 1.6;
       border: 1px solid rgba(249, 212, 35, 0.3);
+      text-align: justify;
     }
 
     h1 {
       margin-bottom: 1.5rem;
-      font-size: 1.8rem;
+      font-size: 2rem;
       background: linear-gradient(90deg, #f9d423, #ff4e50);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -92,12 +93,11 @@
     }
 
     .question-text {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: bold;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       color: #12c2e9;
-      line-height: 1.4;
-      direction: ltr; /* French question */
+      line-height: 1.5;
     }
 
     .options {
@@ -107,14 +107,14 @@
     }
 
     .option {
-      padding: 1rem;
-      font-size: 1.2rem;
+      padding: 1.2rem;
+      font-size: 1.3rem;
       background: rgba(255, 255, 255, 0.1);
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 1rem;
       cursor: pointer;
       transition: all 0.2s;
-      line-height: 1.3;
+      line-height: 1.4;
     }
 
     .option:hover {
@@ -133,8 +133,8 @@
     }
 
     .progress {
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
       color: rgba(255, 255, 255, 0.6);
     }
 
@@ -143,25 +143,28 @@
     }
 
     .score {
-      font-size: 4rem;
+      font-size: 4.5rem;
       font-weight: bold;
-      margin: 1rem 0;
+      margin: 1.5rem 0;
       color: #f9d423;
     }
 
-    .btn-home {
+    .btn-action {
       display: inline-block;
       margin-top: 2rem;
-      padding: 0.8rem 2rem;
+      padding: 1rem 2.5rem;
       background: linear-gradient(90deg, #12c2e9, #c471ed);
       color: white;
       text-decoration: none;
-      border-radius: 2rem;
+      border-radius: 2.5rem;
       font-weight: bold;
       transition: transform 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
     }
 
-    .btn-home:hover {
+    .btn-action:hover {
       transform: scale(1.05);
     }
 
@@ -179,6 +182,12 @@
     .btn-back:hover {
       color: white;
     }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -189,9 +198,9 @@
     <a href="index.html" class="btn-back" title="العودة للرئيسية">✕</a>
     
     <div id="start-screen">
-      <div class="disclaimer" id="quiz-disclaimer"></div>
       <h1>علوم التوحيد</h1>
-      <button onclick="startQuiz()" class="btn-home" style="border:none; cursor:pointer;">ابدأ الاختبار</button>
+      <div class="disclaimer" id="quiz-disclaimer"></div>
+      <button onclick="startQuiz()" class="btn-action">ابدأ الاختبار</button>
     </div>
 
     <div id="quiz-area" style="display:none;">
@@ -202,9 +211,11 @@
     <div id="result-area" class="result-card">
       <h2>النتيجة النهائية</h2>
       <div class="score" id="final-score">0 / 0</div>
-      <p id="feedback-msg"></p>
-      <a href="index.html" class="btn-home">العودة للرئيسية</a>
+      <p id="feedback-msg" style="font-size: 1.3rem;"></p>
+      <a href="index.html" class="btn-action">العودة للرئيسية</a>
     </div>
+
+    <footer>المصدر: al-badr.net</footer>
   </div>
 
   <script src="tawhid-data.js"></script>
@@ -286,10 +297,10 @@
       document.getElementById('final-score').textContent = `${score} / ${tawhidQuiz.questions.length}`;
       
       let msg = "";
-      if (score === tawhidQuiz.questions.length) msg = "ما شاء الله! ممتاز. ثبتك الله على التوحيد 🌟";
-      else if (score >= 7) msg = "جيد جداً! واصل تعلم العقيدة الصحيحة 👍";
-      else if (score >= 5) msg = "بداية طيبة، ينصح بمراجعة دروس الشيخ عبد الرزاق البدر 💪";
-      else msg = "عليك بمراجعة كتاب التوحيد والأصول الثلاثة ❤️";
+      if (score === tawhidQuiz.questions.length) msg = "ما شاء الله! ممتاز. ثبتك الله على التوحيد";
+      else if (score >= 7) msg = "جيد جداً! واصل تعلم العقيدة الصحيحة";
+      else if (score >= 5) msg = "بداية طيبة، ينصح بمراجعة دروس الشيخ عبد الرزاق البدر";
+      else msg = "عليك بمراجعة كتاب التوحيد والأصول الثلاثة";
       
       document.getElementById('feedback-msg').textContent = msg;
     }

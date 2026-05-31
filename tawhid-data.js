@@ -1,108 +1,114 @@
+/**
+ * Data source: https://al-badr.net
+ * Reference: المختصر في الأسئلة والأجوبة في العقيدة (Résumé des questions-réponses sur la Croyance)
+ * Author: Sheikh 'Abdurrazzâq Al-Badr
+ */
 const tawhidQuiz = {
   metadata: {
-    source: "Basé sur les ouvrages et enseignements de Cheikh 'Abdurrazzâq Al-Badr (al-badr.net)",
-    author: "Cheikh 'Abdurrazzâq Al-Badr",
-    disclaimer: "هذه الأسئلة مستخلصة من مؤلفات وشروحات الشيخ عبد الرزاق بن عبد المحسن البدر - حفظه الله -، وهي مرجع علمي موثوق في العقيدة الصحيحة."
+    source_url: "https://al-badr.net",
+    reference_book: "المختصر في الأسئلة والأجوبة في العقيدة",
+    author: "الشيخ عبد الرزاق بن عبد المحسن البدر",
+    disclaimer: "هذه المادة العلمية مستخرجة من الموقع الرسمي لفضيلة الشيخ عبد الرزاق بن عبد المحسن البدر (al-badr.net). تم الاعتماد في صياغتها على رسالة «المختصر في الأسئلة والأجوبة في العقيدة»."
   },
   questions: [
     {
-      q: "Quels sont les trois fondements (الأصول الثلاثة) que chaque musulman doit connaître ?",
+      q: "ما هي الأصول الثلاثة التي يجب على كل مسلم معرفتها؟",
       options: [
-        "La prière, la zakat et le jeûne",
-        "La connaissance d'Allah, de Sa religion et de Son Prophète ﷺ",
-        "L'histoire, la géographie et la langue"
+        "الصلاة والزكاة والصوم",
+        "معرفة العبد ربه، ودينه، ونبيه محمداً ﷺ",
+        "التاريخ والجغرافيا واللغة"
       ],
-      correct: "La connaissance d'Allah, de Sa religion et de Son Prophète ﷺ",
+      correct: "معرفة العبد ربه، ودينه، ونبيه محمداً ﷺ",
       ar: "معرفة العبد ربه، ودينه، ونبيه محمداً ﷺ"
     },
     {
-      q: "Quelle est la définition religieuse du Tawhid ?",
+      q: "ما هو التوحيد في اصطلاح الشرع؟",
       options: [
-        "Croire qu'Allah existe simplement",
-        "Unifier Allah dans ce qui Lui est propre (Seigneurie, Adoration, Noms et Attributs)",
-        "Adorer Allah et d'autres divinités"
+        "الإيمان بوجود الله فقط",
+        "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات",
+        "عبادة الله مع غيره"
       ],
-      correct: "Unifier Allah dans ce qui Lui est propre (Seigneurie, Adoration, Noms et Attributs)",
+      correct: "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات",
       ar: "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات"
     },
     {
-      q: "Quel est le but de la création des djinns et des hommes ?",
+      q: "لماذا خلق الله الجن والإنس؟",
       options: [
-        "Travailler et s'amuser",
-        "Adorer Allah Seul sans rien Lui associer",
-        "Construire des bâtiments"
+        "للعمل واللعب",
+        "لعبادة الله وحده لا شريك له",
+        "لعمارة الأرض فقط"
       ],
-      correct: "Adorer Allah Seul sans rien Lui associer",
-      ar: "عبادة الله وحده لا شريك له"
+      correct: "لعبادة الله وحده لا شريك له",
+      ar: "لعبادة الله وحده لا شريك له"
     },
     {
-      q: "Quel est le sens de 'La ilaha illa Allah' ?",
+      q: "ما معنى «لا إله إلا الله»؟",
       options: [
-        "Nul n'est Créateur sauf Allah",
-        "Nul ne mérite d'être adoré en toute vérité sauf Allah",
-        "Il n'y a pas de Dieu sauf Allah"
+        "لا خالق إلا الله",
+        "لا معبود بحق إلا الله",
+        "لا إله موجود إلا الله"
       ],
-      correct: "Nul ne mérite d'être adoré en toute vérité sauf Allah",
+      correct: "لا معبود بحق إلا الله",
       ar: "لا معبود بحق إلا الله"
     },
     {
-      q: "Combien y a-t-il de piliers de la foi (Al-Iman) ?",
+      q: "كم هي أركان الإيمان؟",
       options: [
-        "5 piliers",
-        "6 piliers",
-        "7 piliers"
+        "خمسة أركان",
+        "ستة أركان",
+        "سبعة أركان"
       ],
-      correct: "6 piliers",
+      correct: "ستة أركان",
       ar: "أركان الإيمان ستة"
     },
     {
-      q: "Où se trouve Allah ?",
+      q: "أين الله عز وجل؟",
       options: [
-        "Partout avec Son Essence",
-        "Au-dessus des cieux, établi sur Son Trône (Istawa)",
-        "Dans le cœur des gens uniquement"
+        "في كل مكان بذاته",
+        "في السماء، مستوٍ على عرشه",
+        "في قلوب العباد فقط"
       ],
-      correct: "Au-dessus des cieux, établi sur Son Trône (Istawa)",
+      correct: "في السماء، مستوٍ على عرشه",
       ar: "الله في السماء، مستوٍ على عرشه"
     },
     {
-      q: "Qu'est-ce que le 'Chirk' (l'association) ?",
+      q: "ما هو الشرك بالله؟",
       options: [
-        "Donner un associé à Allah dans ce qui Lui est propre",
-        "Oublier de faire sa prière",
-        "Dire un mensonge"
+        "صرف شيء من حق الله لغير الله",
+        "نسيان الصلاة",
+        "قول الكذب"
       ],
-      correct: "Donner un associé à Allah dans ce qui Lui est propre",
+      correct: "صرف شيء من حق الله لغير الله",
       ar: "صرف شيء من حق الله لغير الله"
     },
     {
-      q: "Quelles sont les deux conditions pour que l'œuvre soit acceptée ?",
+      q: "ما هما شرطا قبول العمل عند الله؟",
       options: [
-        "La force et la rapidité",
-        "La sincérité (Ikhlas) et le suivi de la Sunnah (Moutaba'a)",
-        "L'argent et le temps"
+        "القوة والسرعة",
+        "الإخلاص لله والمتابعة لرسول الله ﷺ",
+        "المال والوقت"
       ],
-      correct: "La sincérité (Ikhlas) et le suivi de la Sunnah (Moutaba'a)",
+      correct: "الإخلاص لله والمتابعة لرسول الله ﷺ",
       ar: "الإخلاص لله والمتابعة لرسول الله ﷺ"
     },
     {
-      q: "Qu'est-ce que l'Ihsan (l'Excellence) ?",
+      q: "ما هو الإحسان؟",
       options: [
-        "Adorer Allah comme si tu Le voyais",
-        "Donner beaucoup d'argent aux pauvres",
-        "Lire le Coran rapidement"
+        "أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك",
+        "إعطاء المال الكثير للفقراء",
+        "قراءة القرآن بسرعة"
       ],
-      correct: "Adorer Allah comme si tu Le voyais",
+      correct: "أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك",
       ar: "أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك"
     },
     {
-      q: "Quel est le droit d'Allah sur Ses serviteurs ?",
+      q: "ما هو حق الله على العباد؟",
       options: [
-        "Qu'ils Lui demandent de l'argent",
-        "Qu'ils L'adorent sans rien Lui associer",
-        "Qu'ils dorment beaucoup"
+        "أن يطلبوا منه الرزق فقط",
+        "أن يعبدوه ولا يشركوا به شيئاً",
+        "أن يناموا كثيراً"
       ],
-      correct: "Qu'ils L'adorent sans rien Lui associer",
+      correct: "أن يعبدوه ولا يشركوا به شيئاً",
       ar: "أن يعبدوه ولا يشركوا به شيئاً"
     }
   ]

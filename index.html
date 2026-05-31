@@ -58,18 +58,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .emoji {
-      font-size: 4rem;
-      display: block;
-      margin-bottom: 1rem;
-      animation: bounce 2s ease-in-out infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-10px); }
-    }
-
     h1 {
       font-size: clamp(3rem, 10vw, 6rem);
       font-weight: 800;
@@ -78,10 +66,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      margin-bottom: 1rem;
     }
 
     .tagline {
-      margin-top: 1rem;
+      margin-bottom: 2rem;
       font-size: 1.5rem;
       color: rgba(255, 255, 255, 0.55);
       letter-spacing: 0.05em;
@@ -92,14 +81,15 @@
       margin: 1rem auto;
       width: 100%;
       max-width: 280px;
-      padding: 0.8rem 1.5rem;
+      padding: 1rem 1.5rem;
       background: linear-gradient(90deg, #12c2e9, #c471ed);
       color: white;
       text-decoration: none;
-      border-radius: 2rem;
+      border-radius: 2.5rem;
       font-weight: bold;
       transition: all 0.3s;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 1.1rem;
     }
 
     .btn-tawhid {
@@ -118,7 +108,6 @@
   <div class="stars" id="stars"></div>
 
   <div class="card">
-    <span class="emoji">🌟</span>
     <h1>عمران</h1>
     <p class="tagline">أهلاً بكم في صفحتي</p>
     <div style="margin-top: 2rem;">
