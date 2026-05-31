@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عمران - تمارين العربية</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0c29;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--d) ease-in-out infinite;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      background: linear-gradient(90deg, #f9d423, #ff4e50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .question-card {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .question-card.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .word-to-translate {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #12c2e9;
+    }
+
+    .options {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .option {
+      padding: 1rem;
+      font-size: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .option.correct {
+      background: rgba(46, 213, 115, 0.3);
+      border-color: #2ed573;
+    }
+
+    .option.wrong {
+      background: rgba(255, 71, 87, 0.3);
+      border-color: #ff4757;
+    }
+
+    .progress {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .result-card {
+      display: none;
+    }
+
+    .score {
+      font-size: 4rem;
+      font-weight: bold;
+      margin: 1rem 0;
+      color: #f9d423;
+    }
+
+    .btn-home {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(90deg, #12c2e9, #c471ed);
+      color: white;
+      text-decoration: none;
+      border-radius: 2rem;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .btn-home:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="container">
+    <div id="quiz-area">
+      <div class="progress">السؤال <span id="current-idx">1</span> من 10</div>
+      <div id="question-container">
+        <!-- Questions will be injected here -->
+      </div>
+    </div>
+
+    <div id="result-area" class="result-card">
+      <h2>النتيجة النهائية</h2>
+      <div class="score" id="final-score">0 / 10</div>
+      <p id="feedback-msg"></p>
+      <a href="index.html" class="btn-home">العودة للرئيسية</a>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { fr: "Le Livre", ar: "الكتاب", options: ["الولد", "الكتاب", "الباب"] },
+      { fr: "La Maison", ar: "البيت", options: ["البيت", "السيارة", "المدرسة"] },
+      { fr: "Le Pain", ar: "الخبز", options: ["الماء", "اللحم", "الخبز"] },
+      { fr: "L'Eau", ar: "الماء", options: ["العصير", "الماء", "الحليب"] },
+      { fr: "Le Ciel", ar: "السماء", options: ["الأرض", "الشمس", "السماء"] },
+      { fr: "La Lune", ar: "القمر", options: ["القمر", "النجوم", "السحاب"] },
+      { fr: "Le Chat", ar: "القط", options: ["الكلب", "القط", "الأسد"] },
+      { fr: "Le Soleil", ar: "الشمس", options: ["الشمس", "القمر", "السماء"] },
+      { fr: "La Porte", ar: "الباب", options: ["النافذة", "الباب", "الجدار"] },
+      { fr: "Le Stylo", ar: "القلم", options: ["المكتب", "الورقة", "القلم"] }
+    ];
+
+    let currentQuestionIdx = 0;
+    let score = 0;
+    let canAnswer = true;
+
+    function initStars() {
+      const container = document.getElementById('stars');
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.setProperty('--d', (1.5 + Math.random() * 3).toFixed(2) + 's');
+        s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+        container.appendChild(s);
+      }
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestionIdx];
+      const container = document.getElementById('question-container');
+      document.getElementById('current-idx').textContent = currentQuestionIdx + 1;
+      
+      let optionsHtml = q.options.map(opt => `
+        <div class="option" onclick="checkAnswer(this, '${opt}')">${opt}</div>
+      `).join('');
+
+      container.innerHTML = `
+        <div class="question-card active">
+          <div class="word-to-translate">${q.fr}</div>
+          <div class="options">
+            ${optionsHtml}
+          </div>
+        </div>
+      `;
+      canAnswer = true;
+    }
+
+    function checkAnswer(element, selected) {
+      if (!canAnswer) return;
+      canAnswer = false;
+
+      const correct = questions[currentQuestionIdx].ar;
+      const options = document.querySelectorAll('.option');
+
+      options.forEach(opt => {
+        if (opt.textContent === correct) opt.classList.add('correct');
+        if (opt === element && selected !== correct) opt.classList.add('wrong');
+      });
+
+      if (selected === correct) score++;
+
+      setTimeout(() => {
+        currentQuestionIdx++;
+        if (currentQuestionIdx < questions.length) {
+          showQuestion();
+        } else {
+          showResults();
+        }
+      }, 1500);
+    }
+
+    function showResults() {
+      document.getElementById('quiz-area').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+      document.getElementById('final-score').textContent = `${score} / 10`;
+      
+      let msg = "";
+      if (score === 10) msg = "ممتاز! إجابة كاملة 🌟";
+      else if (score >= 7) msg = "عمل جيد جداً! 👍";
+      else if (score >= 5) msg = "بداية جيدة، واصل التدريب! 💪";
+      else msg = "حاول مرة أخرى لتتحسن! ❤️";
+      
+      document.getElementById('feedback-msg').textContent = msg;
+    }
+
+    initStars();
+    showQuestion();
+  </script>
+</body>
+</html>
