@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عمرan - علوم التوحيد</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0f0c29" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0c29;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--d) ease-in-out infinite;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 95%;
+      max-width: 650px;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, #f9d423, #ff4e50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .question-card {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .question-card.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .question-text {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #12c2e9;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .option {
+      padding: 1rem;
+      font-size: 1.3rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1.3;
+    }
+
+    .option:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .option.correct {
+      background: rgba(46, 213, 115, 0.3);
+      border-color: #2ed573;
+    }
+
+    .option.wrong {
+      background: rgba(255, 71, 87, 0.3);
+      border-color: #ff4757;
+    }
+
+    .progress {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .result-card {
+      display: none;
+    }
+
+    .score {
+      font-size: 4rem;
+      font-weight: bold;
+      margin: 1rem 0;
+      color: #f9d423;
+    }
+
+    .btn-home {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(90deg, #12c2e9, #c471ed);
+      color: white;
+      text-decoration: none;
+      border-radius: 2rem;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .btn-home:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-back {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+      z-index: 2;
+    }
+
+    .btn-back:hover {
+      color: white;
+    }
+
+    /* Support for RTL and LTR mix */
+    .ltr {
+      direction: ltr;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="container">
+    <a href="index.html" class="btn-back" title="العودة للرئيسية">✕</a>
+    <div id="quiz-area">
+      <div class="progress">السؤال <span id="current-idx">1</span> من 10</div>
+      <div id="question-container">
+        <!-- Questions injected here -->
+      </div>
+    </div>
+
+    <div id="result-area" class="result-card">
+      <h2>النتيجة النهائية</h2>
+      <div class="score" id="final-score">0 / 10</div>
+      <p id="feedback-msg"></p>
+      <a href="index.html" class="btn-home">العودة للرئيسية</a>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { 
+        q: "Quelle est la définition religieuse du Tawhid ?", 
+        ar: "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات", 
+        options: ["إفراد الله بالخلق فقط", "إفراد الله بما يختص به من الربوبية والألوهية والأسماء والصفات", "الإيمان بوجود الله فقط"] 
+      },
+      { 
+        q: "Quelles sont les trois catégories du Tawhid ?", 
+        ar: "الربوبية، والألوهية، والأسماء والصفات", 
+        options: ["الإيمان، الإسلام، الإحسان", "الربوبية، والألوهية، والأسماء والصفات", "الصلاة، الزكاة، الحج"] 
+      },
+      { 
+        q: "Pour quelle catégorie du Tawhid les Messagers ont-ils été envoyés ?", 
+        ar: "توحيد الألوهية", 
+        options: ["توحيد الربوبية", "توحيد الألوهية", "توحيد الأسماء والصفات"] 
+      },
+      { 
+        q: "Quels sont les deux piliers de 'La ilaha illa Allah' ?", 
+        ar: "النفي والإثبات", 
+        options: ["النفي والإثبات", "القول والعمل", "الخوف والرجاء"] 
+      },
+      { 
+        q: "Que signifie le pilier de la négation 'La ilaha' ?", 
+        ar: "نفي الاستحقاق للعبادة عن كل ما سوى الله", 
+        options: ["نفي وجود الخالق", "نفي الاستحقاق للعبادة عن كل ما سوى الله", "نفي الأسماء والصفات"] 
+      },
+      { 
+        q: "Quelle est la 'clé du Paradis' et ses conditions (les dents) ?", 
+        ar: "شهادة أن لا إله إلا الله", 
+        options: ["شهادة أن لا إله إلا الله", "الصلاة في وقتها", "حسن الخلق"] 
+      },
+      { 
+        q: "L'argument des polythéistes 'nous ne les adorons que pour qu'ils nous rapprochent d'Allah' est :", 
+        ar: "شرك الشفاعة", 
+        options: ["توحيد صحيح", "شرك الشفاعة", "معصية صغيرة"] 
+      },
+      { 
+        q: "Quelle est la conséquence du Grand Shirk (شرك أكبر) ?", 
+        ar: "يخرج من الملة ويحبط جميع الأعمال", 
+        options: ["ينقص الإيمان فقط", "يخرج من الملة ويحبط جميع الأعمال", "لا يضر صاحبه شيئاً"] 
+      },
+      { 
+        q: "Pourquoi le Tawhid est-il la priorité absolue ?", 
+        ar: "لأنه حق الله على العبيد ولأجله خلقوا", 
+        options: ["لأنه حق الله على العبيد ولأجله خلقوا", "لأنه اختيار شخصي", "لأنه مجرد نظرية"] 
+      },
+      { 
+        q: "Concernant les Noms et Attributs d'Allah, nous devons :", 
+        ar: "الإثبات من غير تشبيه ولا تعطيل", 
+        options: ["تأويل المعنى بالعقل", "الإثبات من غير تشبيه ولا تعطيل", "تشبيه الله بخلقه"] 
+      }
+    ];
+
+    let currentQuestionIdx = 0;
+    let score = 0;
+    let canAnswer = true;
+
+    function initStars() {
+      const container = document.getElementById('stars');
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.setProperty('--d', (1.5 + Math.random() * 3).toFixed(2) + 's');
+        s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+        container.appendChild(s);
+      }
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestionIdx];
+      const container = document.getElementById('question-container');
+      document.getElementById('current-idx').textContent = currentQuestionIdx + 1;
+      
+      let optionsHtml = q.options.map(opt => `
+        <div class="option" onclick="checkAnswer(this, '${opt}')">${opt}</div>
+      `).join('');
+
+      container.innerHTML = `
+        <div class="question-card active">
+          <div class="question-text">${q.q}</div>
+          <div class="options">
+            ${optionsHtml}
+          </div>
+        </div>
+      `;
+      canAnswer = true;
+    }
+
+    function checkAnswer(element, selected) {
+      if (!canAnswer) return;
+      canAnswer = false;
+
+      const correct = questions[currentQuestionIdx].ar;
+      const options = document.querySelectorAll('.option');
+
+      options.forEach(opt => {
+        if (opt.textContent === correct) opt.classList.add('correct');
+        if (opt === element && selected !== correct) opt.classList.add('wrong');
+      });
+
+      if (selected === correct) score++;
+
+      setTimeout(() => {
+        currentQuestionIdx++;
+        if (currentQuestionIdx < questions.length) {
+          showQuestion();
+        } else {
+          showResults();
+        }
+      }, 2000);
+    }
+
+    function showResults() {
+      document.getElementById('quiz-area').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+      document.getElementById('final-score').textContent = `${score} / 10`;
+      
+      let msg = "";
+      if (score === 10) msg = "ما شاء الله! ممتاز. ثبتك الله على التوحيد 🌟";
+      else if (score >= 7) msg = "جيد جداً! واصل تعلم العقيدة الصحيحة 👍";
+      else if (score >= 5) msg = "بداية طيبة، ينصح بمراجعة دروس الشيخ عبد الرزاق البدر 💪";
+      else msg = "عليك بمراجعة كتاب التوحيد والأصول الثلاثة ❤️";
+      
+      document.getElementById('feedback-msg').textContent = msg;
+    }
+
+    initStars();
+    showQuestion();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW registered!', reg))
+          .catch(err => console.log('SW registration failed!', err));
+      });
+    }
+  </script>
+</body>
+</html>

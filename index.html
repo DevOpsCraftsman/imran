@@ -88,9 +88,11 @@
     }
 
     .btn-exercises {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.8rem 2rem;
+      display: block;
+      margin: 1rem auto;
+      width: 100%;
+      max-width: 280px;
+      padding: 0.8rem 1.5rem;
       background: linear-gradient(90deg, #12c2e9, #c471ed);
       color: white;
       text-decoration: none;
@@ -100,10 +102,14 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
+    .btn-tawhid {
+      background: linear-gradient(90deg, #f9d423, #ff4e50);
+    }
+
     .btn-exercises:hover {
       transform: translateY(-3px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-      background: linear-gradient(90deg, #c471ed, #12c2e9);
+      filter: brightness(1.1);
     }
   </style>
 </head>
@@ -115,7 +121,10 @@
     <span class="emoji">🌟</span>
     <h1>عمران</h1>
     <p class="tagline">أهلاً بكم في صفحتي</p>
-    <a href="quiz.html" class="btn-exercises">تمارين العربية</a>
+    <div style="margin-top: 2rem;">
+      <a href="quiz.html" class="btn-exercises">مفردات اللغة العربية</a>
+      <a href="quiz-tawhid.html" class="btn-exercises btn-tawhid">علوم التوحيد</a>
+    </div>
   </div>
 
   <script>
